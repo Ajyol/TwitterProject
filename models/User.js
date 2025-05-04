@@ -1,4 +1,4 @@
-const mongoose = require('mpngoose');
+const mongoose = require('mongoose');
 
 const UserDto = new mongoose.Schema({
     username: String,
