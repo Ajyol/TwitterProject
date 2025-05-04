@@ -6,8 +6,15 @@ const expressLayouts = require('express-ejs-layouts');
 
 const app = express();
 
+app.get('/', (req, res) => {
+  res.redirect('/login');
+});
+
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+
+const cookieParser = require('cookie-parser');
+app.use(cookieParser());
 
 // Serve static files (like CSS) from the public directory
 app.use(express.static('public'));

@@ -20,7 +20,7 @@ class Observer {
 
     initializeFromDB(topics) {
         for (const topic of topics) {
-            this.subscribers.set(topic._id.toString(), new Set(topic.subscribers, map(id => id.toString())))
+            this.subscribers.set(topic._id.toString(), new Set(topic.subscribers.map(id => id.toString())));
         }
     }
 }

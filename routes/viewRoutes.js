@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const viewController = require('../controllers/viewController');
 
-router.get('/', viewController.showLogin);
+router.get('/login', viewController.showLogin);
 router.get('/register', viewController.showRegister);
 router.get('/dashboard', viewController.showDashboard);
 router.get('/topics', viewController.showTopics);
