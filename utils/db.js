@@ -6,7 +6,6 @@ class Database {
     constructor() {
         if (!instance) {
             instance = this;
-            this._connect();
         }
         return instance;
     }
