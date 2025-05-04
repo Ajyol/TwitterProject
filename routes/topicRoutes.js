@@ -7,5 +7,6 @@ router.post('/', auth, topicController.createTopic);
 router.get('/', auth, topicController.getAllTopics);
 router.post('/:id/subscribe', auth, topicController.subscribe);
 router.post('/:id/unsubscribe', auth, topicController.unsubscribe);
+router.get('/stats', auth, topicController.getTopicStats);
 
 module.exports = router;

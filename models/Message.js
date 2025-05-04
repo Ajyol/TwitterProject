@@ -7,4 +7,4 @@ const MessageDto = new mongoose.Schema({
     postedDate: { type: Date, default: Date.now }
 });
 
-module.exports = mongoose.Model('Message', MessageDto);
+module.exports = mongoose.model('Message', MessageDto);

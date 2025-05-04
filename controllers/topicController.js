@@ -45,3 +45,12 @@ exports.unsubscribe = async (req, res) => {
         res.status(500).json({ msg: error.message });
     }
 };
+
+exports.getTopicStats = async (req, res) => {
+    try {
+        const stats = await Topic.find({}, 'title views').sort({ views: -1 });
+        res.json(stats);
+    } catch (error) {
+        res.status(500).json({ msg: error.message });
+    }
+};
