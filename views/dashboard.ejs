@@ -1,0 +1,20 @@
+<h2>Your Dashboard</h2>
+
+<% if (subscribedTopics.length === 0) { %>
+  <p>You haven't subscribed to any topics yet.</p>
+<% } else { %>
+  <% subscribedTopics.forEach(topic => { %>
+    <div>
+      <h3><%= topic.name %></h3>
+      <form action="/api/topics/unsubscribe/<%= topic._id %>" method="POST" style="display:inline;">
+        <button type="submit">Unsubscribe</button>
+      </form>
+      <% topic.recentMessages.forEach(msg => { %>
+        <p><strong><%= msg.author.username %>:</strong> <%= msg.content %></p>
+      <% }) %>
+    </div>
+    <hr>
+  <% }) %>
+<% } %>
+
+<a href="/topics">View All Topics</a>

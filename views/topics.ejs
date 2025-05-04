@@ -1,0 +1,17 @@
+<h2>All Topics</h2>
+
+<form action="/api/topics/create" method="POST">
+  <input name="name" placeholder="New topic name" required />
+  <button type="submit">Create Topic</button>
+</form>
+
+<ul>
+  <% topics.forEach(topic => { %>
+    <li>
+      <%= topic.name %>
+      <form action="/api/topics/subscribe/<%= topic._id %>" method="POST" style="display:inline;">
+        <button type="submit">Subscribe</button>
+      </form>
+    </li>
+  <% }) %>
+</ul>

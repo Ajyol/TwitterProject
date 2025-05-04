@@ -1,0 +1,12 @@
+<% layout('layout') %>
+<h2>Messages in <%= topic.name %></h2>
+<ul>
+  <% messages.forEach(msg => { %>
+    <li><%= msg.content %> - <%= msg.createdAt.toLocaleString() %></li>
+  <% }) %>
+</ul>
+<form action="/api/messages" method="POST">
+  <input type="hidden" name="topicId" value="<%= topic._id %>" />
+  <textarea name="content" placeholder="Type your message"></textarea>
+  <button type="submit">Send</button>
+</form>
