@@ -1,6 +1,9 @@
-<h2>Topic Access Statistics</h2>
+<%- include('header-footer/header') %>
+<h2>Statistics</h2>
 <ul>
-  <% stats.forEach(stat => { %>
-    <li><%= stat.name %>: <%= stat.accessCount %> views</li>
+  <% topics.forEach(topic => { %>
+    <li><%= topic.name %> - <%= topic.messageCount || 0 %> messages</li>
   <% }) %>
 </ul>
+<a href="/dashboard?user=YOUR_USER_ID">Back to Dashboard</a>
+<%- include('header-footer/footer') %>

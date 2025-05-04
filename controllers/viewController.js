@@ -62,7 +62,11 @@ exports.showMessages = async (req, res) => {
     const topic = await Topic.findById(req.params.id);
     if (!topic) return res.status(404).send('Topic not found');
     
-    const messages = await Message.find({ topic: topic._id }).sort({ createdAt: -1 });
+    const messages = await Message
+      .find({ topic: topic._id })
+      .populate('author', 'username')
+      .sort({ postedDate: -1 });
+
     res.render('messages', { topic, messages });
   } catch (err) {
     console.error(err);

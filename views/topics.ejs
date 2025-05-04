@@ -5,7 +5,7 @@
   <% topics.forEach(topic => { %>
     <li>
       <strong><%= topic.title %></strong> - Views: <%= topic.views %>
-      <a href="/messages/<%= topic._id %>">View Messages</a>
+      <a href="/topics/<%= topic._id %>/messages">View Messages</a>
     </li>
   <% }) %>
 </ul>

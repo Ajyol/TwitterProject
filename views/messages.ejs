@@ -1,12 +1,19 @@
-<% layout('layout') %>
-<h2>Messages in <%= topic.name %></h2>
-<ul>
-  <% messages.forEach(msg => { %>
-    <li><%= msg.content %> - <%= msg.createdAt.toLocaleString() %></li>
-  <% }) %>
-</ul>
-<form action="/api/messages" method="POST">
-  <input type="hidden" name="topicId" value="<%= topic._id %>" />
-  <textarea name="content" placeholder="Type your message"></textarea>
-  <button type="submit">Send</button>
-</form>
+<%- include('header-footer/header') %>
+
+<h2>Messages for Topic: <%= topic.title %></h2>
+
+<% if (messages.length === 0) { %>
+  <p>No messages yet.</p>
+<% } else { %>
+  <ul>
+    <% messages.forEach(message => { %>
+      <li>
+        <p><strong><%= message.author.username %>:</strong> <%= message.content %></p>
+        <p><em>Posted on: <%= message.postedDate.toDateString() %></em></p>
+      </li>
+    <% }) %>
+  </ul>
+<% } %>
+
+<a href="/topics">Back to Topics</a>
+<%- include('header-footer/footer') %>
