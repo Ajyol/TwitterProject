@@ -1,28 +1,35 @@
-const NotificationService = require('./NotificationService');
-class Observer {
-    constructor() {
-        this.subscribers = new Map();
-    }
+const User = require('../models/User');
 
-    subscribe(topicId, userId) {
-        if(!this.subscribers.has(topicId)) this.subscribers.set(topicId, new Set());
-        this.subscribers.get(topicId).add(userId);
-    }
+let subscriptions = {}; 
 
-    unsubscribe(topicId, userId) {
-        if (this.subscribers.had(topicId)) this.subscribers.get(topicId).delete(userId);
+const subscribe = (topicId, userId) => {
+    if (!subscriptions[topicId]) {
+        subscriptions[topicId] = [];
     }
-
-    notify(topic, message) {
-        const subscribers = this.subscribers.get(topic._id?.toString()) || new Set();
-        NotificationService.notify(topic.title, message.content, subscribers);
+    if (!subscriptions[topicId].includes(userId)) {
+        subscriptions[topicId].push(userId);
     }
+};
 
-    initializeFromDB(topics) {
-        for (const topic of topics) {
-            this.subscribers.set(topic._id.toString(), new Set(topic.subscribers.map(id => id.toString())));
+const unsubscribe = (topicId, userId) => {
+    if (subscriptions[topicId]) {
+        subscriptions[topicId] = subscriptions[topicId].filter(id => id !== userId);
+        if (subscriptions[topicId].length === 0) {
+            delete subscriptions[topicId];
         }
     }
-}
+};
 
-module.exports = new Observer();
+
+const notifySubscribers = (topicId, message) => {
+    const topicSubscribers = subscriptions[topicId] || [];
+    topicSubscribers.forEach(subscriberId => {
+        console.log(`Notify user ${subscriberId}: ${message}`);
+    });
+};
+
+module.exports = {
+    subscribe,
+    unsubscribe,
+    notifySubscribers
+};
