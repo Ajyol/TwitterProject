@@ -17,7 +17,8 @@ const cookieParser = require('cookie-parser');
 app.use(cookieParser());
 
 // Serve static files (like CSS) from the public directory
-app.use(express.static('public'));
+app.use(express.static(path.join(__dirname, 'public')));
+
 
 // Set EJS as the templating engine and views directory
 app.set('view engine', 'ejs');

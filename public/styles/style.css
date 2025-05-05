@@ -1,0 +1,260 @@
+/* Global Styling */
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f4f7fa;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Welcome Message */
+.welcome-message {
+  text-align: center;
+  font-size: 30px;
+  color: #333;
+  margin: 30px 0;
+}
+
+/* Create Topic Form */
+.form-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 30px;
+}
+
+.create-topic-form {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 500px;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.input-field {
+  padding: 14px;
+  font-size: 16px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  margin-bottom: 15px;
+}
+
+.submit-btn {
+  padding: 14px;
+  font-size: 16px;
+  background-color: #1da1f2;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.submit-btn:hover {
+  background-color: #0d8bb2;
+}
+
+/* Topics Header */
+.topics-header {
+  text-align: center;
+  font-size: 24px;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+/* Topics List */
+.topics-list {
+  list-style-type: none;
+  padding: 0;
+}
+
+.topic-item {
+  background-color: #fff;
+  margin-bottom: 15px;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.topic-title {
+  font-size: 20px;
+  color: #333;
+}
+
+.topic-author {
+  font-size: 14px;
+  color: #555;
+  margin-top: 5px;
+}
+
+.subscribe-unsubscribe-form {
+  display: inline;
+}
+
+.subscribe-btn, .unsubscribe-btn {
+  padding: 8px 15px;
+  font-size: 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-right: 10px;
+}
+
+.subscribe-btn {
+  background-color: #1da1f2;
+  color: white;
+  border: none;
+}
+
+.subscribe-btn:hover {
+  background-color: #0d8bb2;
+}
+
+.unsubscribe-btn {
+  background-color: #e74c3c;
+  color: white;
+  border: none;
+}
+
+.unsubscribe-btn:hover {
+  background-color: #c0392b;
+}
+
+.view-messages-link {
+  margin-top: 10px;
+  display: inline-block;
+  font-size: 14px;
+  color: #1da1f2;
+  text-decoration: none;
+}
+
+.view-messages-link:hover {
+  text-decoration: underline;
+}
+
+/* Pagination */
+.pagination {
+  text-align: center;
+  margin-top: 30px;
+}
+
+.pagination-btn {
+  background-color: #1da1f2;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-size: 16px;
+  margin: 0 10px;
+  cursor: pointer;
+}
+
+.pagination-btn:hover {
+  background-color: #0d8bb2;
+}
+
+.page-info {
+  font-size: 16px;
+  color: #555;
+}
+
+/* Topic Message Page Styling */
+
+/* Topic Title */
+.topic-title {
+  text-align: center;
+  font-size: 28px;
+  color: #333;
+  margin: 20px 0;
+}
+
+/* New Message Form Container */
+.message-form-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 30px;
+}
+
+.message-form {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 600px;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.message-input {
+  padding: 14px;
+  font-size: 16px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  margin-bottom: 15px;
+  width: 100%;
+  resize: vertical;
+}
+
+.post-btn {
+  padding: 14px;
+  font-size: 16px;
+  background-color: #1da1f2;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.post-btn:hover {
+  background-color: #0d8bb2;
+}
+
+/* Messages Display */
+.messages-list {
+  list-style-type: none;
+  padding: 0;
+  margin-top: 30px;
+}
+
+.message-item {
+  background-color: #fff;
+  margin-bottom: 20px;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.message-item p {
+  margin: 0;
+  padding: 5px 0;
+}
+
+.message-date {
+  font-size: 12px;
+  color: #888;
+  margin-top: 10px;
+}
+
+/* No Messages */
+.no-messages {
+  text-align: center;
+  font-size: 18px;
+  color: #888;
+}
+
+/* Back to Dashboard Link */
+.back-to-dashboard {
+  display: block;
+  text-align: center;
+  margin-top: 30px;
+  font-size: 16px;
+  color: #1da1f2;
+  text-decoration: none;
+}
+
+.back-to-dashboard:hover {
+  text-decoration: underline;
+}

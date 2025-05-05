@@ -1,7 +1,17 @@
+const User = require('../models/User');
+
 class NotificationService {
-    notify(topic, message, subscribers) {
-        subscribers.forEach((userId) => {
-            console.log(`Notify user ${userId}: New message in topic "${topic.title}": ${message.content}`);
+    async notify(topic, message, subscribers) {
+        const userPromises = subscribers.map((userId) =>
+            User.findById(userId).select('username')
+        );
+
+        const users = await Promise.all(userPromises);
+
+        users.forEach((user) => {
+            if (user) {
+                console.log(`Notify user ${user.username}: New message in topic "${topic.title}": ${message.content}`);
+            }
         });
     }
 }

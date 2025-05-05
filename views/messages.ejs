@@ -1,27 +1,32 @@
 <%- include('header-footer/header') %>
 
-<h2>Messages for Topic: <%= topic.title %></h2>
+<h2 class="topic-title">Messages for Topic: <%= topic.title %></h2>
 
-<form action="/topics/<%= topic._id %>/messages" method="POST">
-  <textarea name="content" rows="3" cols="50" placeholder="Write your message here..." required></textarea>
-  <br>
-  <button type="submit">Post Message</button>
-</form>
+<!-- Post New Message Form -->
+<div class="message-form-container">
+  <form action="/topics/<%= topic._id %>/messages" method="POST" class="message-form">
+    <textarea name="content" rows="4" cols="50" placeholder="Write your message here..." required class="message-input"></textarea>
+    <br>
+    <button type="submit" class="post-btn">Post Message</button>
+  </form>
+</div>
 
 <hr>
 
+<!-- Messages Display -->
 <% if (messages.length === 0) { %>
-  <p>No messages yet.</p>
+  <p class="no-messages">No messages yet.</p>
 <% } else { %>
-  <ul>
+  <ul class="messages-list">
     <% messages.forEach(message => { %>
-      <li>
+      <li class="message-item">
         <p><strong><%= message.author.username %>:</strong> <%= message.content %></p>
-        <p><em>Posted on: <%= message.postedDate.toDateString() %></em></p>
+        <p><em class="message-date">Posted on: <%= message.postedDate.toDateString() %></em></p>
       </li>
     <% }) %>
   </ul>
 <% } %>
 
-<a href="/dashboard">Back to dashboard</a>
+<a href="/dashboard" class="back-to-dashboard">Back to dashboard</a>
+
 <%- include('header-footer/footer') %>
