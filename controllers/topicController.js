@@ -1,21 +1,28 @@
 const Topic = require('../models/Topic');
 const User = require('../models/User'); 
-const observer = require('../services/observer')
+const observer = require('../services/observer');
 
 exports.createTopic = async (req, res) => {
     const { title } = req.body;
     const userId = req.user.id;
+
     try {
+        // Create topic and auto-subscribe creator
         const topic = await Topic.create({
             title,
             createdBy: userId,
             subscribers: [userId]
         });
-        observer.subscribe(topic._id.toString(), userId);
 
+        // Add to user's subscriptions
         const user = await User.findById(userId);
-        user.subscriptions.push(topic._id);
-        await user.save();
+        if (!user.subscriptions.includes(topic._id)) {
+            user.subscriptions.push(topic._id);
+            await user.save();
+        }
+
+        // Register subscription in observer
+        observer.subscribe(topic._id.toString(), userId);
 
         res.redirect('/dashboard');
     } catch (error) {
@@ -34,7 +41,7 @@ exports.getAllTopics = async (req, res) => {
 
 exports.subscribe = async (req, res) => {
     try {
-        const topic = await Topic.findByIdAndUpdate(req.params.id);
+        const topic = await Topic.findById(req.params.id);
         const userId = req.user.id;
 
         if (!topic.subscribers.includes(userId)) {
@@ -49,6 +56,7 @@ exports.subscribe = async (req, res) => {
         }
 
         observer.subscribe(topic._id.toString(), userId);
+
         res.redirect('/dashboard');
     } catch (error) {
         res.status(500).json({ msg: error.message });
@@ -57,21 +65,35 @@ exports.subscribe = async (req, res) => {
 
 exports.unsubscribe = async (req, res) => {
     try {
-        const topic = await Topic.findByIdAndUpdate(req.params.id, {
-            $pull: { subscribers: req.user.id }
-        });
+        const topic = await Topic.findById(req.params.id);
+        const userId = req.user.id;
 
-        const user = await User.findById(req.user.id);
-        user.subscriptions = user.subscriptions.filter(sub => sub.toString() !== topic._id.toString());
+        if (!topic) {
+            return res.status(404).json({ msg: 'Topic not found' });
+        }
+
+        // Remove user from topic subscribers
+        topic.subscribers = topic.subscribers.filter(
+            id => id.toString() !== userId.toString()
+        );
+        await topic.save();
+
+        // Remove topic from user's subscriptions
+        const user = await User.findById(userId);
+        user.subscriptions = user.subscriptions.filter(
+            sub => sub.toString() !== topic._id.toString()
+        );
         await user.save();
 
-        observer.unsubscribe(topic._id.toString(), req.user.id);
+        // Unregister from observer
+        observer.unsubscribe(topic._id.toString(), userId);
 
-        res.json({ msg: 'Unsubscribed' });
+        res.redirect('/dashboard');
     } catch (error) {
         res.status(500).json({ msg: error.message });
     }
 };
+
 
 exports.getTopicStats = async (req, res) => {
     try {

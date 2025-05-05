@@ -2,6 +2,14 @@
 
 <h2>Messages for Topic: <%= topic.title %></h2>
 
+<form action="/topics/<%= topic._id %>/messages" method="POST">
+  <textarea name="content" rows="3" cols="50" placeholder="Write your message here..." required></textarea>
+  <br>
+  <button type="submit">Post Message</button>
+</form>
+
+<hr>
+
 <% if (messages.length === 0) { %>
   <p>No messages yet.</p>
 <% } else { %>

@@ -3,6 +3,8 @@ const Topic = require('../models/Topic');
 const Message = require('../models/Message');
 const User = require('../models/User');
 const jwt = require('jsonwebtoken');
+const observer = require('../services/observer');
+
 
 exports.showLogin = (req, res) => {
   res.render('login');
@@ -73,12 +75,12 @@ exports.showMessagesForTopic = async (req, res) => {
 };
 
 exports.postMessageForTopic = async (req, res) => {
-  const { content } = req.body; // Get the content of the new message
-  const topicId = req.params.id; // Get the topic ID from the URL
+  const { content } = req.body;
+  const topicId = req.params.id;
+  const { auth_token } = req.cookies;
 
-  const { auth_token } = req.cookies; // Get the auth token from cookies
   if (!auth_token) {
-    return res.status(401).redirect('/login'); // If no token, redirect to login
+    return res.status(401).redirect('/login');
   }
 
   try {
@@ -89,18 +91,20 @@ exports.postMessageForTopic = async (req, res) => {
       return res.status(400).send('Invalid or missing user ID');
     }
 
-    const user = await User.findById(userId); // Find the user who is posting the message
+    const user = await User.findById(userId);
+    const topic = await Topic.findById(topicId);
 
-    // Create a new message and associate it with the topic
     const newMessage = new Message({
       content,
       topic: topicId,
-      author: user._id, // Set the author to the current user
+      author: user._id,
     });
 
-    await newMessage.save(); // Save the new message to the database
+    await newMessage.save();
 
-    res.redirect(`/topics/${topicId}/messages`); // Redirect back to the topic's message page
+    observer.notifySubscribers(topicId.toString(), `New message in ${topic.title}: ${content}`);
+
+    res.redirect(`/topics/${topicId}/messages`);
   } catch (err) {
     console.error(err);
     res.status(500).send('Server error');

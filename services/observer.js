@@ -14,8 +14,12 @@ const subscribe = (topicId, userId) => {
 const unsubscribe = (topicId, userId) => {
     if (subscriptions[topicId]) {
         subscriptions[topicId] = subscriptions[topicId].filter(id => id !== userId);
+        if (subscriptions[topicId].length === 0) {
+            delete subscriptions[topicId];
+        }
     }
 };
+
 
 const notifySubscribers = (topicId, message) => {
     const topicSubscribers = subscriptions[topicId] || [];
