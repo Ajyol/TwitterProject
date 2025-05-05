@@ -14,9 +14,19 @@
     <li>
       <strong><%= topic.title %></strong>
       <em>by <%= topic.createdBy.username %></em>
-      <form action="/api/topics/<%= topic._id %>/subscribe" method="POST" style="display:inline">
-        <button type="submit">Subscribe</button>
-      </form>
+
+      <% if (topic.subscribers.includes(user._id.toString())) { %>
+        <!-- User is already subscribed -->
+        <form action="/api/topics/<%= topic._id %>/unsubscribe" method="POST" style="display:inline">
+          <button type="submit">Unsubscribe</button>
+        </form>
+      <% } else { %>
+        <!-- User is not subscribed -->
+        <form action="/api/topics/<%= topic._id %>/subscribe" method="POST" style="display:inline">
+          <button type="submit">Subscribe</button>
+        </form>
+      <% } %>
+
       <a href="/topics/<%= topic._id %>/messages">View Messages</a>
     </li>
   <% }) %>

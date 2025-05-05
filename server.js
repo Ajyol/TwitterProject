@@ -48,8 +48,17 @@ app.use('/api/messages', messageRoutes);
 const observer = require('./services/observer');
 const Topic = require('./models/Topic');
 (async () => {
-  const topics = await Topic.find();
-  observer.initializeFromDB(topics);
+  try {
+    const topics = await Topic.find().populate('subscribers', '_id');
+    topics.forEach(topic => {
+      topic.subscribers.forEach(user => {
+        observer.subscribe(topic._id.toString(), user._id.toString());
+      });
+    });
+    console.log('✅ Observer subscriptions initialized from DB');
+  } catch (err) {
+    console.error('❌ Failed to initialize observer:', err);
+  }
 })();
 
 app.listen(3000, () => console.log("🚀 Server running at http://localhost:3000"));

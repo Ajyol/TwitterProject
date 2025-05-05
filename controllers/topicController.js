@@ -1,4 +1,5 @@
 const Topic = require('../models/Topic');
+const User = require('../models/User'); 
 const observer = require('../services/observer')
 
 exports.createTopic = async (req, res) => {
@@ -11,6 +12,11 @@ exports.createTopic = async (req, res) => {
             subscribers: [userId]
         });
         observer.subscribe(topic._id.toString(), userId);
+
+        const user = await User.findById(userId);
+        user.subscriptions.push(topic._id);
+        await user.save();
+
         res.redirect('/dashboard');
     } catch (error) {
         res.status(500).json({ msg: error.message });
@@ -35,6 +41,13 @@ exports.subscribe = async (req, res) => {
             topic.subscribers.push(userId);
             await topic.save();
         }
+
+        const user = await User.findById(userId);
+        if (!user.subscriptions.includes(topic._id)) {
+            user.subscriptions.push(topic._id);
+            await user.save();
+        }
+
         observer.subscribe(topic._id.toString(), userId);
         res.redirect('/dashboard');
     } catch (error) {
@@ -44,9 +57,16 @@ exports.subscribe = async (req, res) => {
 
 exports.unsubscribe = async (req, res) => {
     try {
-        await Topic/findByIdAndUpdate(req.params.id, {
+        const topic = await Topic.findByIdAndUpdate(req.params.id, {
             $pull: { subscribers: req.user.id }
         });
+
+        const user = await User.findById(req.user.id);
+        user.subscriptions = user.subscriptions.filter(sub => sub.toString() !== topic._id.toString());
+        await user.save();
+
+        observer.unsubscribe(topic._id.toString(), req.user.id);
+
         res.json({ msg: 'Unsubscribed' });
     } catch (error) {
         res.status(500).json({ msg: error.message });
