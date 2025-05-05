@@ -4,6 +4,8 @@ const Message = require('../models/Message');
 const User = require('../models/User');
 const jwt = require('jsonwebtoken');
 const observer = require('../services/observer');
+const notificationService = require('../services/NotificationService');
+
 
 
 exports.showLogin = (req, res) => {
@@ -51,11 +53,14 @@ exports.showDashboard = async (req, res) => {
       isSubscribed: userSubscribedIds.has(topic._id.toString())
     }));
 
+    const notifications = user.notifications || [];
+
     res.render('dashboard', {
       user,
       topics: topicsWithSubscriptionInfo,
       currentPage: page,
-      totalPages: Math.ceil(totalTopics / limit)
+      totalPages: Math.ceil(totalTopics / limit),
+      notifications
     });
   } catch (err) {
     console.error(err);
@@ -115,7 +120,7 @@ exports.postMessageForTopic = async (req, res) => {
 
     observer.subscribe(topicId.toString(), userId)
 
-    observer.notifySubscribers(topicId.toString(), `New message in ${topic.title}: ${content}`);
+    await notificationService.notify(topic, newMessage, topic.subscribers);
 
     res.redirect(`/topics/${topicId}/messages`);
   } catch (err) {

@@ -1,11 +1,54 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Message Exchange</title>
-    
-    <!-- Link to the global CSS file -->
-    <link rel="stylesheet" href="/styles/style.css" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Yapper</title>
+  <link rel="stylesheet" href="/styles/style.css" />
 </head>
 <body>
+
+<header>
+  <div class="notification-container">
+    <button class="notification-button" onclick="toggleNotifications()">
+      🔔
+      <% if (notifications && notifications.length > 0) { %>
+        <span class="notification-count"><%= notifications.length %></span>
+      <% } %>
+    </button>
+
+    <div id="notificationDropdown" class="notification-dropdown">
+      <% if (notifications && notifications.length === 0) { %>
+        <p style="padding: 0.5rem;">No new notifications.</p>
+      <% } else if (notifications) { %>
+        <ul>
+          <% notifications.slice().reverse().forEach(notif => { %>
+            <li>
+              <strong><%= notif.topic %></strong>: <%= notif.message %>
+              <small><%= new Date(notif.date).toLocaleString() %></small>
+            </li>
+          <% }) %>
+        </ul>
+      <% } %>
+    </div>
+  </div>
+</header>
+
+<script>
+  function toggleNotifications() {
+    const dropdown = document.getElementById('notificationDropdown');
+    dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+  }
+
+  // Optional: Close dropdown if clicked outside
+  document.addEventListener('click', function (event) {
+    const dropdown = document.getElementById('notificationDropdown');
+    const button = document.querySelector('.notification-button');
+    if (!button.contains(event.target) && !dropdown.contains(event.target)) {
+      dropdown.style.display = 'none';
+    }
+  });
+</script>
+
+</body>
+</html>

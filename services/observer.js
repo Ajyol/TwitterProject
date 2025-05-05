@@ -1,35 +1,49 @@
 const User = require('../models/User');
+const Topic = require('../models/Topic');
 
-let subscriptions = {}; 
+class Observer {
+  constructor() {
+    this.subscribers = {};
+  }
 
-const subscribe = (topicId, userId) => {
-    if (!subscriptions[topicId]) {
-        subscriptions[topicId] = [];
+  subscribe(topicId, userId) {
+    if (!this.subscribers[topicId]) {
+      this.subscribers[topicId] = new Set();
     }
-    if (!subscriptions[topicId].includes(userId)) {
-        subscriptions[topicId].push(userId);
-    }
-};
+    this.subscribers[topicId].add(userId);
+  }
 
-const unsubscribe = (topicId, userId) => {
-    if (subscriptions[topicId]) {
-        subscriptions[topicId] = subscriptions[topicId].filter(id => id !== userId);
-        if (subscriptions[topicId].length === 0) {
-            delete subscriptions[topicId];
+  unsubscribe(topicId, userId) {
+    if (this.subscribers[topicId]) {
+      this.subscribers[topicId].delete(userId);
+      if (this.subscribers[topicId].size === 0) {
+        delete this.subscribers[topicId];
+      }
+    }
+  }
+
+  async notifySubscribers(topicId, messageText) {
+    const topic = await Topic.findById(topicId).select('title subscribers');
+    if (!topic) return;
+
+    const userIds = topic.subscribers || [];
+
+    const notification = {
+      topic: topic.title,
+      message: messageText,
+      date: new Date()
+    };
+
+    await Promise.all(
+      userIds.map(async (userId) => {
+        const user = await User.findById(userId);
+        if (user) {
+          user.notifications.push(notification);
+          await user.save();
         }
-    }
-};
+      })
+    );
+  }
+}
 
-
-const notifySubscribers = (topicId, message) => {
-    const topicSubscribers = subscriptions[topicId] || [];
-    topicSubscribers.forEach(subscriberId => {
-        console.log(`Notify user ${subscriberId}: ${message}`);
-    });
-};
-
-module.exports = {
-    subscribe,
-    unsubscribe,
-    notifySubscribers
-};
+module.exports = new Observer();

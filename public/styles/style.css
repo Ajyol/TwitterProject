@@ -258,3 +258,69 @@ body {
 .back-to-dashboard:hover {
   text-decoration: underline;
 }
+
+
+/* Notification Styles */
+.notification-container {
+  position: relative;
+  display: inline-block;
+  float: right; /* Aligns button to the right */
+  margin: 1rem;
+}
+
+.notification-dropdown {
+  display: none;
+  position: absolute;
+  right: 0;
+  top: 100%; /* Adjust this to bring the dropdown closer to the button */
+  background-color: #fffbe7;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width: 300px;
+  max-height: 300px;
+  overflow-y: auto;
+  z-index: 1000;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  transform: none; /* Remove the translateX to stop shifting the dropdown */
+}
+
+.notification-button {
+  background-color: transparent;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  position: relative;
+}
+
+.notification-count {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  background: red;
+  color: white;
+  border-radius: 50%;
+  padding: 2px 6px;
+  font-size: 0.7rem;
+}
+
+.notification-dropdown ul {
+  list-style: none;
+  margin: 0;
+  padding: 0.5rem;
+}
+
+.notification-dropdown li {
+  border-bottom: 1px solid #eee;
+  padding: 0.5rem 0;
+  font-size: 0.9rem;
+}
+
+.notification-dropdown li:last-child {
+  border-bottom: none;
+}
+
+.notification-dropdown small {
+  display: block;
+  color: #6b7280;
+  font-size: 0.75rem;
+}
