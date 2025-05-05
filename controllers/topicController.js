@@ -11,8 +11,7 @@ exports.createTopic = async (req, res) => {
             subscribers: [userId]
         });
         observer.subscribe(topic._id.toString(), userId);
-        res.status(201).json(topic);
-
+        res.redirect('/dashboard');
     } catch (error) {
         res.status(500).json({ msg: error.message });
     }
