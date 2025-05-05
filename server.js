@@ -43,9 +43,6 @@ app.use('/api/auth', authRoutes);
 const topicRoutes = require('./routes/topicRoutes');
 app.use('/api/topics', topicRoutes);
 
-const messageRoutes = require('./routes/messageRoutes');
-app.use('/api/messages', messageRoutes);
-
 const observer = require('./services/observer');
 const Topic = require('./models/Topic');
 (async () => {

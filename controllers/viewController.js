@@ -98,9 +98,22 @@ exports.postMessageForTopic = async (req, res) => {
       content,
       topic: topicId,
       author: user._id,
+      postedDate: new Date()
     });
 
     await newMessage.save();
+
+    if (!topic.subscribers.includes(user._id)) {
+      topic.subscribers.push(user._id);
+      await topic.save();
+    }
+
+    if (!user.subscriptions.includes(topic._id)) {
+      user.subscriptions.push(topic._id);
+      await user.save();
+    }
+
+    observer.subscribe(topicId.toString(), userId)
 
     observer.notifySubscribers(topicId.toString(), `New message in ${topic.title}: ${content}`);
 

@@ -7,21 +7,18 @@ exports.createTopic = async (req, res) => {
     const userId = req.user.id;
 
     try {
-        // Create topic and auto-subscribe creator
         const topic = await Topic.create({
             title,
             createdBy: userId,
             subscribers: [userId]
         });
 
-        // Add to user's subscriptions
         const user = await User.findById(userId);
         if (!user.subscriptions.includes(topic._id)) {
             user.subscriptions.push(topic._id);
             await user.save();
         }
 
-        // Register subscription in observer
         observer.subscribe(topic._id.toString(), userId);
 
         res.redirect('/dashboard');
