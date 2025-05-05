@@ -1,12 +1,14 @@
 const Topic = require('../models/Topic');
+const observer = require('../services/observer')
 
 exports.createTopic = async (req, res) => {
     const { title } = req.body;
+    const userId = req.user.id;
     try {
         const topic = await Topic.create({
             title,
-            createdBy: req.user.id,
-            subscribers: [req.user.id]
+            createdBy: userId,
+            subscribers: [userId]
         });
         observer.subscribe(topic._id.toString(), userId);
         res.status(201).json(topic);
