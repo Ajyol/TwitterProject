@@ -3,24 +3,19 @@ const Topic = require('../models/Topic');
 const NotificationService = require('../services/NotificationService');
 
 exports.postMessage = async (req, res) => {
-    const { content, topicId } = req.body;
-
+    const { content } = req.body;
+    const topicId = req.params.topicId;
+    const authorId = req.user.id;
     try {
-        const topic = await Topic.findById(topic.Id);
-        if (!topic) return res.status(404).json({ msg: 'Topic not found'});
-
-        if(!topic.subscribers.includes(req.user.id)) {
-            return res.status(403).json({ msg: 'Not subscribed to this topic' });
-        }
-
         const message = await Message.create({
             content,
+            author: authorId,
             topic: topicId,
-            author: req.user.id
+            postedDate: new Date()
         });
 
-        res.status(201).json(message);
-        NotificationService.notify(topic, message, topic.subscribers);
+        observer.notify(topicId, message);
+        res.redirect(`/topics/${topicId}/messages`);
     } catch (error) {
         res.status(500).json({ msg: error.message });
     }

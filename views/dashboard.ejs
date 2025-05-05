@@ -1,14 +1,36 @@
 <%- include('header-footer/header') %>
-<h2>Welcome, <%= user.username %></h2>
-<h3>Your Subscribed Topics:</h3>
-<% Object.keys(recentMessages).forEach(topic => { %>
-  <h4><%= topic %></h4>
-  <ul>
-    <% recentMessages[topic].forEach(msg => { %>
-      <li><%= msg.content %> - <%= msg.createdAt.toLocaleString() %></li>
-    <% }) %>
-  </ul>
-<% }) %>
-<a href="/topics">Browse Topics</a>
-<a href="/stats">Stats</a>
+
+<h2>Welcome, <%= user.username %>!</h2>
+
+<!-- Create Topic Form -->
+<form action="/api/topics" method="POST">
+  <input type="text" name="title" placeholder="New Topic Title" required />
+  <button type="submit">Create Topic</button>
+</form>
+
+<h3>All Topics</h3>
+<ul>
+  <% topics.forEach(topic => { %>
+    <li>
+      <strong><%= topic.title %></strong>
+      <em>by <%= topic.createdBy.username %></em>
+      <form action="/api/topics/<%= topic._id %>/subscribe" method="POST" style="display:inline">
+        <button type="submit">Subscribe</button>
+      </form>
+      <a href="/topics/<%= topic._id %>/messages">View Messages</a>
+    </li>
+  <% }) %>
+</ul>
+
+<!-- Pagination -->
+<div>
+  <% if (currentPage > 1) { %>
+    <a href="/dashboard?page=<%= currentPage - 1 %>">Previous</a>
+  <% } %>
+  Page <%= currentPage %> of <%= totalPages %>
+  <% if (currentPage < totalPages) { %>
+    <a href="/dashboard?page=<%= currentPage + 1 %>">Next</a>
+  <% } %>
+</div>
+
 <%- include('header-footer/footer') %>

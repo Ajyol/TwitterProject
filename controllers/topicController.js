@@ -8,6 +8,7 @@ exports.createTopic = async (req, res) => {
             createdBy: req.user.id,
             subscribers: [req.user.id]
         });
+        observer.subscribe(topic._id.toString(), userId);
         res.status(201).json(topic);
 
     } catch (error) {
@@ -26,10 +27,15 @@ exports.getAllTopics = async (req, res) => {
 
 exports.subscribe = async (req, res) => {
     try {
-        await Topic.findByIdAndUpdate(req.params.id, {
-            $addToSet: { subscribers: req.user.id }
-        });
-        res.json({ msg: 'Subscribed' });
+        const topic = await Topic.findByIdAndUpdate(req.params.id);
+        const userId = req.user.id;
+
+        if (!topic.subscribers.includes(userId)) {
+            topic.subscribers.push(userId);
+            await topic.save();
+        }
+        observer.subscribe(topic._id.toString(), userId);
+        res.redirect('/dashboard');
     } catch (error) {
         res.status(500).json({ msg: error.message });
     }
