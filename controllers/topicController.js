@@ -55,6 +55,7 @@ exports.subscribe = async (req, res) => {
             await user.save();
         }
 
+        // Register subscription in observer
         observer.subscribe(topic._id.toString(), userId);
 
         res.redirect('/dashboard');
@@ -73,16 +74,12 @@ exports.unsubscribe = async (req, res) => {
         }
 
         // Remove user from topic subscribers
-        topic.subscribers = topic.subscribers.filter(
-            id => id.toString() !== userId.toString()
-        );
+        topic.subscribers = topic.subscribers.filter(id => id.toString() !== userId.toString());
         await topic.save();
 
         // Remove topic from user's subscriptions
         const user = await User.findById(userId);
-        user.subscriptions = user.subscriptions.filter(
-            sub => sub.toString() !== topic._id.toString()
-        );
+        user.subscriptions = user.subscriptions.filter(sub => sub.toString() !== topic._id.toString());
         await user.save();
 
         // Unregister from observer
