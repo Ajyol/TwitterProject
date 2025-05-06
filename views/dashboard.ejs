@@ -19,6 +19,7 @@
     <li class="topic-item">
       <strong class="topic-title"><%= topic.title %></strong>
       <em class="topic-author">by <%= topic.createdBy.username %></em>
+      <span class="topic-views">👁️ <%= topic.views || 0 %> views</span>
 
     <% if (topic.isSubscribed) { %>
       <form action="/api/topics/<%= topic._id %>/unsubscribe" method="POST">

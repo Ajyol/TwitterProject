@@ -71,12 +71,22 @@ exports.showDashboard = async (req, res) => {
 
 exports.showMessagesForTopic = async (req, res) => {
   const topicId = req.params.topicId;
-  const topic = await Topic.findById(topicId);
-  const messages = await Message.find({ topic: topicId }).populate('author');
-
   const { auth_token } = req.cookies;
 
-  res.render('messages', { topic, messages, token: auth_token });
+  try {
+    const topic = await Topic.findByIdAndUpdate(
+      topicId,
+      { $inc: { views: 1 } },
+      { new: true }
+    ).lean();
+
+    const messages = await Message.find({ topic: topicId }).populate('author').lean();
+
+    res.render('messages', { topic, messages, token: auth_token });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Error loading topic messages');
+  }
 };
 
 exports.postMessageForTopic = async (req, res) => {
