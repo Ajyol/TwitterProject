@@ -6,8 +6,6 @@ const jwt = require('jsonwebtoken');
 const observer = require('../services/observer');
 const notificationService = require('../services/NotificationService');
 
-
-
 exports.showLogin = (req, res) => {
   res.render('login');
 };
@@ -46,8 +44,8 @@ exports.showDashboard = async (req, res) => {
       .lean();
 
     const totalTopics = await Topic.countDocuments();
-
     const userSubscribedIds = new Set(user.subscriptions.map(sub => sub._id.toString()));
+
     const topicsWithSubscriptionInfo = allTopics.map(topic => ({
       ...topic,
       isSubscribed: userSubscribedIds.has(topic._id.toString())
@@ -68,15 +66,24 @@ exports.showDashboard = async (req, res) => {
   }
 };
 
-
 exports.showMessagesForTopic = async (req, res) => {
   const topicId = req.params.topicId;
-  const topic = await Topic.findById(topicId);
-  const messages = await Message.find({ topic: topicId }).populate('author');
-
   const { auth_token } = req.cookies;
 
-  res.render('messages', { topic, messages, token: auth_token });
+  try {
+    const topic = await Topic.findByIdAndUpdate(
+      topicId,
+      { $inc: { views: 1 } },
+      { new: true }
+    ).lean();
+
+    const messages = await Message.find({ topic: topicId }).populate('author').lean();
+
+    res.render('messages', { topic, messages, token: auth_token });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Error loading topic messages');
+  }
 };
 
 exports.postMessageForTopic = async (req, res) => {
@@ -84,9 +91,7 @@ exports.postMessageForTopic = async (req, res) => {
   const topicId = req.params.id;
   const { auth_token } = req.cookies;
 
-  if (!auth_token) {
-    return res.status(401).redirect('/login');
-  }
+  if (!auth_token) return res.status(401).redirect('/login');
 
   try {
     const decoded = jwt.verify(auth_token, process.env.JWT_SECRET);
@@ -108,18 +113,7 @@ exports.postMessageForTopic = async (req, res) => {
 
     await newMessage.save();
 
-    if (!topic.subscribers.includes(user._id)) {
-      topic.subscribers.push(user._id);
-      await topic.save();
-    }
-
-    if (!user.subscriptions.includes(topic._id)) {
-      user.subscriptions.push(topic._id);
-      await user.save();
-    }
-
-    observer.subscribe(topicId.toString(), userId)
-
+    await observer.subscribe(topicId.toString(), userId);
     await notificationService.notify(topic, newMessage, topic.subscribers);
 
     res.redirect(`/topics/${topicId}/messages`);

@@ -8,31 +8,33 @@
 </head>
 <body>
 
-<header>
-  <div class="notification-container">
-    <button class="notification-button" onclick="toggleNotifications()">
-      🔔
-      <% if (notifications && notifications.length > 0) { %>
-        <span class="notification-count"><%= notifications.length %></span>
-      <% } %>
-    </button>
-
-    <div id="notificationDropdown" class="notification-dropdown">
-      <% if (notifications && notifications.length === 0) { %>
-        <p style="padding: 0.5rem;">No new notifications.</p>
-      <% } else if (notifications) { %>
-        <ul>
-          <% notifications.slice().reverse().forEach(notif => { %>
-            <li>
-              <strong><%= notif.topic %></strong>: <%= notif.message %>
-              <small><%= new Date(notif.date).toLocaleString() %></small>
-            </li>
-          <% }) %>
-        </ul>
-      <% } %>
+  <header>
+    <div class="notification-wrapper">
+      <button class="notification-button" onclick="toggleNotifications()">
+        🔔
+        <% if (notifications && notifications.length > 0) { %>
+          <span class="notification-count"><%= notifications.length %></span>
+        <% } %>
+      </button>
+  
+      <div id="notificationDropdown" class="notification-dropdown">
+        <% if (notifications && notifications.length === 0) { %>
+          <p class="empty-message">No new notifications.</p>
+        <% } else if (notifications) { %>
+          <ul class="notification-list">
+            <% notifications.slice().reverse().forEach(notif => { %>
+              <li>
+                <strong><%= notif.topic %></strong>: <%= notif.message %>
+                <small><%= new Date(notif.date).toLocaleString() %></small>
+              </li>
+            <% }) %>
+          </ul>
+        <% } %>
+      </div>
     </div>
-  </div>
-</header>
+  </header>
+  
+  
 
 <script>
   function toggleNotifications() {

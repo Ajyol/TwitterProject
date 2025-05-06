@@ -1,53 +1,64 @@
-/* Global Styling */
+/* === GLOBAL STYLES === */
 body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background-color: #f4f7fa;
+  background-color: #f0f2f5;
+  color: #0f1419;
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-/* Welcome Message */
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* === WELCOME MESSAGE === */
 .welcome-message {
   text-align: center;
-  font-size: 30px;
-  color: #333;
+  font-size: 28px;
+  font-weight: 600;
   margin: 30px 0;
 }
 
-/* Create Topic Form */
+/* === CREATE TOPIC FORM === */
 .form-container {
   display: flex;
   justify-content: center;
-  margin-bottom: 30px;
+  margin-bottom: 20px;
 }
 
 .create-topic-form {
   display: flex;
-  flex-direction: column;
-  width: 100%;
-  max-width: 500px;
-  background-color: #fff;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  flex-direction: row;
+  width: 90%;
+  max-width: 600px;
+  background-color: #ffffff;
+  padding: 12px 16px;
+  border-radius: 50px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  align-items: center;
+  gap: 12px;
 }
 
 .input-field {
-  padding: 14px;
+  flex: 1;
+  padding: 12px 16px;
   font-size: 16px;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  margin-bottom: 15px;
+  border: 1px solid #e1e8ed;
+  border-radius: 9999px;
+  background-color: #f5f8fa;
+  outline: none;
 }
 
 .submit-btn {
-  padding: 14px;
-  font-size: 16px;
+  padding: 12px 20px;
+  font-size: 15px;
   background-color: #1da1f2;
-  color: white;
+  color: #fff;
+  font-weight: 600;
   border: none;
-  border-radius: 8px;
+  border-radius: 9999px;
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
@@ -56,271 +67,241 @@ body {
   background-color: #0d8bb2;
 }
 
-/* Topics Header */
+/* === TOPICS SECTION === */
 .topics-header {
   text-align: center;
-  font-size: 24px;
-  color: #333;
-  margin-bottom: 20px;
+  font-size: 22px;
+  font-weight: 500;
+  margin: 30px 0 20px;
 }
 
-/* Topics List */
 .topics-list {
   list-style-type: none;
   padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: center;
 }
 
+/* === TOPIC ITEM CARD === */
 .topic-item {
+  width: 90%;
+  max-width: 600px;
   background-color: #fff;
-  margin-bottom: 15px;
   padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border-radius: 16px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
 .topic-title {
   font-size: 20px;
-  color: #333;
+  font-weight: bold;
+  color: #1da1f2;
 }
 
 .topic-author {
   font-size: 14px;
-  color: #555;
-  margin-top: 5px;
+  color: #657786;
 }
 
-.subscribe-unsubscribe-form {
-  display: inline;
+.topic-views {
+  font-size: 13px;
+  color: #8899a6;
 }
 
-.subscribe-btn, .unsubscribe-btn {
-  padding: 8px 15px;
+/* === ACTION BUTTONS === */
+.subscribe-btn,
+.unsubscribe-btn {
+  padding: 8px 16px;
   font-size: 14px;
-  border-radius: 8px;
+  font-weight: 500;
+  border-radius: 9999px;
+  border: none;
   cursor: pointer;
-  margin-right: 10px;
+  transition: background-color 0.2s ease;
+  margin-top: 8px;
+  width: fit-content;
 }
 
 .subscribe-btn {
   background-color: #1da1f2;
   color: white;
-  border: none;
 }
 
 .subscribe-btn:hover {
-  background-color: #0d8bb2;
+  background-color: #0d95e8;
 }
 
 .unsubscribe-btn {
-  background-color: #e74c3c;
+  background-color: #e0245e;
   color: white;
-  border: none;
 }
 
 .unsubscribe-btn:hover {
-  background-color: #c0392b;
+  background-color: #c2184b;
 }
 
 .view-messages-link {
-  margin-top: 10px;
-  display: inline-block;
   font-size: 14px;
   color: #1da1f2;
-  text-decoration: none;
+  margin-top: 6px;
 }
 
 .view-messages-link:hover {
   text-decoration: underline;
 }
 
-/* Pagination */
+/* === PAGINATION === */
 .pagination {
   text-align: center;
-  margin-top: 30px;
+  margin: 40px 0;
 }
 
 .pagination-btn {
+  padding: 10px 18px;
+  font-size: 14px;
   background-color: #1da1f2;
   color: white;
-  padding: 10px 20px;
-  border-radius: 8px;
-  text-decoration: none;
-  font-size: 16px;
+  border: none;
+  border-radius: 9999px;
   margin: 0 10px;
   cursor: pointer;
+  transition: background-color 0.2s ease;
 }
 
 .pagination-btn:hover {
-  background-color: #0d8bb2;
+  background-color: #0d95e8;
 }
 
 .page-info {
-  font-size: 16px;
-  color: #555;
+  display: block;
+  margin-top: 12px;
+  font-size: 14px;
+  color: #657786;
 }
 
-/* Topic Message Page Styling */
-
-/* Topic Title */
-.topic-title {
-  text-align: center;
-  font-size: 28px;
-  color: #333;
-  margin: 20px 0;
+/* Divider */
+.divider {
+  margin: 2rem 0;
+  border: none;
+  border-top: 1px solid #ddd;
 }
 
-/* New Message Form Container */
-.message-form-container {
+.logout-container {
   display: flex;
-  justify-content: center;
-  margin-bottom: 30px;
+  justify-content: flex-end;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
 }
 
-.message-form {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  max-width: 600px;
-  background-color: #fff;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-.message-input {
-  padding: 14px;
-  font-size: 16px;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  margin-bottom: 15px;
-  width: 100%;
-  resize: vertical;
-}
-
-.post-btn {
-  padding: 14px;
-  font-size: 16px;
-  background-color: #1da1f2;
-  color: white;
+.logout-btn {
+  padding: 0.6rem 1.2rem;
+  background-color: #ff4d4f; /* Softer red */
+  color: #fff;
+  font-weight: 600;
+  font-family: 'Segoe UI', sans-serif;
   border: none;
   border-radius: 8px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.post-btn:hover {
-  background-color: #0d8bb2;
-}
-
-/* Messages Display */
-.messages-list {
-  list-style-type: none;
-  padding: 0;
-  margin-top: 30px;
-}
-
-.message-item {
-  background-color: #fff;
-  margin-bottom: 20px;
-  padding: 15px;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.message-item p {
-  margin: 0;
-  padding: 5px 0;
-}
-
-.message-date {
-  font-size: 12px;
-  color: #888;
-  margin-top: 10px;
-}
-
-/* No Messages */
-.no-messages {
-  text-align: center;
-  font-size: 18px;
-  color: #888;
-}
-
-/* Back to Dashboard Link */
-.back-to-dashboard {
-  display: block;
-  text-align: center;
-  margin-top: 30px;
-  font-size: 16px;
-  color: #1da1f2;
   text-decoration: none;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.2s ease, transform 0.2s ease;
 }
 
-.back-to-dashboard:hover {
-  text-decoration: underline;
+.logout-btn:hover {
+  background-color: #d9363e; /* More elegant red on hover */
+  transform: translateY(-1px);
 }
 
-
-/* Notification Styles */
 .notification-container {
   position: relative;
-  display: inline-block;
-  float: right; /* Aligns button to the right */
   margin: 1rem;
 }
 
-.notification-dropdown {
-  display: none;
-  position: absolute;
-  right: 0;
-  top: 100%; /* Adjust this to bring the dropdown closer to the button */
-  background-color: #fffbe7;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  width: 300px;
-  max-height: 300px;
-  overflow-y: auto;
-  z-index: 1000;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-  transform: none; /* Remove the translateX to stop shifting the dropdown */
+.notification-button {
+  position: relative;
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 50%;
+  background-color: #fff;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  transition: background-color 0.2s ease;
 }
 
-.notification-button {
-  background-color: transparent;
-  border: none;
-  font-size: 1.5rem;
-  cursor: pointer;
-  position: relative;
+.notification-button:hover {
+  background-color: #f0f0f0;
 }
 
 .notification-count {
   position: absolute;
   top: -5px;
   right: -5px;
-  background: red;
+  background-color: red;
   color: white;
-  border-radius: 50%;
+  font-size: 12px;
+  font-weight: bold;
   padding: 2px 6px;
-  font-size: 0.7rem;
+  border-radius: 999px;
+  box-shadow: 0 0 0 2px white;
 }
 
-.notification-dropdown ul {
+.notification-wrapper {
+  position: relative;
+  display: inline-block; /* Wraps tightly around button + dropdown */
+}
+
+.notification-dropdown {
+  display: none;
+  position: absolute;
+  top: 110%; /* Adjusts distance from button */
+  left: 0; /* Align to left of button */
+  width: 320px;
+  max-height: 400px;
+  overflow-y: auto;
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+  z-index: 1000;
+  padding: 1rem;
+}
+
+.notification-dropdown::before {
+  content: '';
+  position: absolute;
+  top: -8px;
+  left: 20px;
+  border-width: 8px;
+  border-style: solid;
+  border-color: transparent transparent #fff transparent;
+}
+
+.notification-list {
   list-style: none;
+  padding: 0;
   margin: 0;
-  padding: 0.5rem;
 }
 
-.notification-dropdown li {
-  border-bottom: 1px solid #eee;
-  padding: 0.5rem 0;
-  font-size: 0.9rem;
+.notification-list li {
+  margin-bottom: 12px;
+  font-size: 14px;
+  line-height: 1.4;
 }
 
-.notification-dropdown li:last-child {
-  border-bottom: none;
-}
-
-.notification-dropdown small {
+.notification-list small {
   display: block;
-  color: #6b7280;
-  font-size: 0.75rem;
+  font-size: 12px;
+  color: #888;
+}
+
+.empty-message {
+  color: #555;
+  font-size: 14px;
+  text-align: center;
 }

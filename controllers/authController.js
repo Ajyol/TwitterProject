@@ -31,7 +31,7 @@ exports.login = async (req, res) => {
 
         res.cookie('auth_token', token, { 
             httpOnly: true, 
-            maxAge: 2 * 24 * 60 * 60 * 1000, // Cookie expiration
+            maxAge: 2 * 24 * 60 * 60 * 1000,
             secure: process.env.NODE_ENV === 'production', 
         });
 
@@ -39,4 +39,9 @@ exports.login = async (req, res) => {
     } catch (err) {
         res.status(500).json({ msg: err.message });
     }
+};
+
+exports.logout = (req, res) => {
+    res.clearCookie('auth_token');
+    res.redirect('/login');
 };

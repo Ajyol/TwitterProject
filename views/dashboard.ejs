@@ -3,10 +3,19 @@
 <!-- Welcome Message -->
 <h2 class="welcome-message">Welcome, <%= user.username %>!</h2>
 
+<!-- Logout Button -->
+<div class="logout-container">
+  <form action="/api/auth/logout" method="GET">
+    <button type="submit" class="logout-btn">Logout</button>
+  </form>
+</div>
+
+
 <!-- Create Topic Form -->
 <div class="form-container">
   <form action="/api/topics" method="POST" class="create-topic-form">
-    <input type="text" name="title" placeholder="New Topic Title" required class="input-field"/>
+    <input type="text" name="title" placeholder="New Topic Title" required class="input-field" />
+    <textarea name="messageContent" placeholder="Write your first message here..." required class="input-field"></textarea>
     <button type="submit" class="submit-btn">Create Topic</button>
   </form>
 </div>
@@ -19,6 +28,7 @@
     <li class="topic-item">
       <strong class="topic-title"><%= topic.title %></strong>
       <em class="topic-author">by <%= topic.createdBy.username %></em>
+      <span class="topic-views">👁️ <%= topic.views || 0 %> views</span>
 
     <% if (topic.isSubscribed) { %>
       <form action="/api/topics/<%= topic._id %>/unsubscribe" method="POST">
@@ -30,8 +40,7 @@
       </form>
     <% } %>
 
-
-      <a href="/topics/<%= topic._id %>/messages" class="view-messages-link">View Messages</a>
+    <a href="/topics/<%= topic._id %>/messages" class="view-messages-link">View Messages</a>
     </li>
   <% }) %>
 </ul>
