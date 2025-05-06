@@ -14,7 +14,8 @@
 <!-- Create Topic Form -->
 <div class="form-container">
   <form action="/api/topics" method="POST" class="create-topic-form">
-    <input type="text" name="title" placeholder="New Topic Title" required class="input-field"/>
+    <input type="text" name="title" placeholder="New Topic Title" required class="input-field" />
+    <textarea name="messageContent" placeholder="Write your first message here..." required class="input-field"></textarea>
     <button type="submit" class="submit-btn">Create Topic</button>
   </form>
 </div>
