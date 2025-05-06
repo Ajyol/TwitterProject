@@ -3,6 +3,14 @@
 <!-- Welcome Message -->
 <h2 class="welcome-message">Welcome, <%= user.username %>!</h2>
 
+<!-- Logout Button -->
+<div class="logout-container">
+  <form action="/api/auth/logout" method="GET">
+    <button type="submit" class="logout-btn">Logout</button>
+  </form>
+</div>
+
+
 <!-- Create Topic Form -->
 <div class="form-container">
   <form action="/api/topics" method="POST" class="create-topic-form">
@@ -31,8 +39,7 @@
       </form>
     <% } %>
 
-
-      <a href="/topics/<%= topic._id %>/messages" class="view-messages-link">View Messages</a>
+    <a href="/topics/<%= topic._id %>/messages" class="view-messages-link">View Messages</a>
     </li>
   <% }) %>
 </ul>
