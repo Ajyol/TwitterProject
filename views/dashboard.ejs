@@ -30,20 +30,26 @@
       <em class="topic-author">by <%= topic.createdBy.username %></em>
       <span class="topic-views">👁️ <%= topic.views || 0 %> views</span>
 
-    <% if (topic.isSubscribed) { %>
-      <form action="/api/topics/<%= topic._id %>/unsubscribe" method="POST">
-          <button type="submit" class="unsubscribe-btn">Unsubscribe</button>
-      </form>
-    <% } else { %>
-      <form action="/api/topics/<%= topic._id %>/subscribe" method="POST">
-          <button type="submit" class="subscribe-btn">Subscribe</button>
-      </form>
-    <% } %>
+      <!-- First Message -->
+      <% if (topic.firstMessage) { %>
+        <p class="first-message">📝 <%= topic.firstMessage.content.slice(0, 100) %>...</p>
+      <% } %>
 
-    <a href="/topics/<%= topic._id %>/messages" class="view-messages-link">View Messages</a>
+      <% if (topic.isSubscribed) { %>
+        <form action="/api/topics/<%= topic._id %>/unsubscribe" method="POST">
+            <button type="submit" class="unsubscribe-btn">Unsubscribe</button>
+        </form>
+      <% } else { %>
+        <form action="/api/topics/<%= topic._id %>/subscribe" method="POST">
+            <button type="submit" class="subscribe-btn">Subscribe</button>
+        </form>
+      <% } %>
+
+      <a href="/topics/<%= topic._id %>/messages" class="view-messages-link">View Messages</a>
     </li>
   <% }) %>
 </ul>
+
 
 <!-- Pagination -->
 <div class="pagination">

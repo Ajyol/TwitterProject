@@ -16,18 +16,12 @@ exports.showRegister = (req, res) => {
 
 exports.showDashboard = async (req, res) => {
   const { auth_token } = req.cookies || {};
-
-  if (!auth_token) {
-    return res.status(401).redirect('/login');
-  }
+  if (!auth_token) return res.status(401).redirect('/login');
 
   try {
     const decoded = jwt.verify(auth_token, process.env.JWT_SECRET);
     const userId = decoded.id;
-
-    if (!mongoose.Types.ObjectId.isValid(userId)) {
-      return res.status(400).send('Invalid or missing user ID');
-    }
+    if (!mongoose.Types.ObjectId.isValid(userId)) return res.status(400).send('Invalid or missing user ID');
 
     const user = await User.findById(userId).populate('subscriptions').lean();
     if (!user) return res.status(404).send('User not found');
@@ -39,32 +33,71 @@ exports.showDashboard = async (req, res) => {
     const allTopics = await Topic.find()
       .populate('createdBy', 'username')
       .sort({ createdAt: -1 })
-      .skip(skip)
-      .limit(limit)
       .lean();
 
-    const totalTopics = await Topic.countDocuments();
-    const userSubscribedIds = new Set(user.subscriptions.map(sub => sub._id.toString()));
+    const topicIds = allTopics.map(t => t._id);
+    const firstMessages = await Message.aggregate([
+      { $match: { topic: { $in: topicIds } } },
+      { $sort: { postedDate: 1 } },
+      {
+        $group: {
+          _id: '$topic',
+          firstMessage: { $first: '$$ROOT' }
+        }
+      }
+    ]);
 
-    const topicsWithSubscriptionInfo = allTopics.map(topic => ({
-      ...topic,
-      isSubscribed: userSubscribedIds.has(topic._id.toString())
-    }));
+    const messageMap = new Map();
+    firstMessages.forEach(({ _id, firstMessage }) => {
+      messageMap.set(_id.toString(), firstMessage);
+    });
 
-    const notifications = user.notifications || [];
+    const subscribedIds = new Set(user.subscriptions.map(sub => sub._id.toString()));
+    const recentMessages = await Message.aggregate([
+      {
+        $group: {
+          _id: '$topic',
+          latestDate: { $max: '$postedDate' }
+        }
+      }
+    ]);
+
+    const recentMap = new Map();
+    recentMessages.forEach(({ _id, latestDate }) => {
+      recentMap.set(_id.toString(), latestDate);
+    });
+
+    const topicsWithInfo = allTopics.map(topic => {
+      const topicId = topic._id.toString();
+      return {
+        ...topic,
+        isSubscribed: subscribedIds.has(topicId),
+        latestMessageDate: recentMap.get(topicId) || new Date(0),
+        firstMessage: messageMap.get(topicId)
+      };
+    });
+
+    const sortedTopics = topicsWithInfo.sort((a, b) => {
+      if (a.isSubscribed && !b.isSubscribed) return -1;
+      if (!a.isSubscribed && b.isSubscribed) return 1;
+      return new Date(b.latestMessageDate) - new Date(a.latestMessageDate);
+    });
+
+    const paginatedTopics = sortedTopics.slice(skip, skip + limit);
 
     res.render('dashboard', {
       user,
-      topics: topicsWithSubscriptionInfo,
+      topics: paginatedTopics,
       currentPage: page,
-      totalPages: Math.ceil(totalTopics / limit),
-      notifications
+      totalPages: Math.ceil(sortedTopics.length / limit),
+      notifications: user.notifications || []
     });
   } catch (err) {
     console.error(err);
     res.status(500).send('Server error');
   }
 };
+
 
 exports.showMessagesForTopic = async (req, res) => {
   const topicId = req.params.topicId;
