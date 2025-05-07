@@ -73,7 +73,7 @@ exports.showDashboard = async (req, res) => {
         ...topic,
         isSubscribed: subscribedIds.has(topicId),
         latestMessageDate: recentMap.get(topicId) || new Date(0),
-        firstMessage: messageMap.get(topicId)
+        firstMessage: messageMap.get(topicId),
       };
     });
 

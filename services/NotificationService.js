@@ -8,7 +8,7 @@ class NotificationService {
 
     const users = await Promise.all(userPromises);
 
-    const notificationText = `New message in topic "${topic.title}": ${message.content}`;
+    const notificationText = `${topic.title}: ${message.content}`;
 
     for (const user of users) {
       if (user) {
