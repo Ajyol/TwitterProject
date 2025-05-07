@@ -1,8 +1,8 @@
 /* === GLOBAL STYLES === */
 body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background-color: #f0f2f5;
-  color: #0f1419;
+  background-color: #f4f6f8;
+  color: #333;
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -16,63 +16,83 @@ a {
 /* === WELCOME MESSAGE === */
 .welcome-message {
   text-align: center;
-  font-size: 28px;
+  font-size: 30px;
   font-weight: 600;
-  margin: 30px 0;
+  margin: 40px 0;
+  color: #2d3e50;
 }
 
 /* === CREATE TOPIC FORM === */
 .form-container {
   display: flex;
   justify-content: center;
-  margin-bottom: 20px;
+  margin-bottom: 40px;
 }
 
 .create-topic-form {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   width: 90%;
-  max-width: 600px;
+  max-width: 800px;
   background-color: #ffffff;
-  padding: 12px 16px;
-  border-radius: 50px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-  align-items: center;
-  gap: 12px;
+  padding: 24px 32px;
+  border-radius: 16px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  gap: 20px;
+}
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.input-label {
+  font-weight: 600;
+  margin-bottom: 8px;
 }
 
 .input-field {
-  flex: 1;
-  padding: 12px 16px;
+  padding: 14px 18px;
   font-size: 16px;
-  border: 1px solid #e1e8ed;
-  border-radius: 9999px;
-  background-color: #f5f8fa;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  background-color: #f7f9fb;
   outline: none;
+  transition: border-color 0.3s ease;
+}
+
+.input-field:focus {
+  border-color: #1da1f2;
 }
 
 .submit-btn {
-  padding: 12px 20px;
-  font-size: 15px;
+  padding: 14px 24px;
+  font-size: 16px;
   background-color: #1da1f2;
   color: #fff;
   font-weight: 600;
   border: none;
-  border-radius: 9999px;
+  border-radius: 50px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
 .submit-btn:hover {
-  background-color: #0d8bb2;
+  background-color: #0d95e8;
+  transform: translateY(-2px);
+}
+
+.submit-btn:active {
+  transform: translateY(1px);
 }
 
 /* === TOPICS SECTION === */
 .topics-header {
   text-align: center;
-  font-size: 22px;
+  font-size: 24px;
   font-weight: 500;
-  margin: 30px 0 20px;
+  margin: 40px 0 30px;
+  color: #1c1e21;
 }
 
 .topics-list {
@@ -80,51 +100,56 @@ a {
   padding: 0;
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 20px;
   align-items: center;
 }
 
 /* === TOPIC ITEM CARD === */
 .topic-item {
   width: 90%;
-  max-width: 600px;
+  max-width: 750px;
   background-color: #fff;
-  padding: 20px;
+  padding: 24px;
   border-radius: 16px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 12px;
+  transition: box-shadow 0.3s ease;
+}
+
+.topic-item:hover {
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
 }
 
 .topic-title {
-  font-size: 20px;
+  font-size: 22px;
   font-weight: bold;
   color: #1da1f2;
 }
 
 .topic-author {
-  font-size: 14px;
+  font-size: 15px;
   color: #657786;
 }
 
 .topic-views {
-  font-size: 13px;
+  font-size: 14px;
   color: #8899a6;
 }
 
 /* === ACTION BUTTONS === */
 .subscribe-btn,
 .unsubscribe-btn {
-  padding: 8px 16px;
-  font-size: 14px;
+  padding: 10px 18px;
+  font-size: 15px;
   font-weight: 500;
-  border-radius: 9999px;
+  border-radius: 50px;
   border: none;
   cursor: pointer;
-  transition: background-color 0.2s ease;
-  margin-top: 8px;
+  transition: background-color 0.3s ease;
   width: fit-content;
+  margin-top: 12px;
 }
 
 .subscribe-btn {
@@ -146,51 +171,16 @@ a {
 }
 
 .view-messages-link {
-  font-size: 14px;
+  font-size: 15px;
   color: #1da1f2;
-  margin-top: 6px;
+  margin-top: 8px;
 }
 
 .view-messages-link:hover {
   text-decoration: underline;
 }
 
-/* === PAGINATION === */
-.pagination {
-  text-align: center;
-  margin: 40px 0;
-}
-
-.pagination-btn {
-  padding: 10px 18px;
-  font-size: 14px;
-  background-color: #1da1f2;
-  color: white;
-  border: none;
-  border-radius: 9999px;
-  margin: 0 10px;
-  cursor: pointer;
-  transition: background-color 0.2s ease;
-}
-
-.pagination-btn:hover {
-  background-color: #0d95e8;
-}
-
-.page-info {
-  display: block;
-  margin-top: 12px;
-  font-size: 14px;
-  color: #657786;
-}
-
-/* Divider */
-.divider {
-  margin: 2rem 0;
-  border: none;
-  border-top: 1px solid #ddd;
-}
-
+/* === LOGOUT BUTTON === */
 .logout-container {
   display: flex;
   justify-content: flex-end;
@@ -199,8 +189,8 @@ a {
 }
 
 .logout-btn {
-  padding: 0.6rem 1.2rem;
-  background-color: #ff4d4f; /* Softer red */
+  padding: 0.8rem 1.6rem;
+  background-color: #ff4d4f;
   color: #fff;
   font-weight: 600;
   font-family: 'Segoe UI', sans-serif;
@@ -208,100 +198,101 @@ a {
   border-radius: 8px;
   cursor: pointer;
   text-decoration: none;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-  transition: background-color 0.2s ease, transform 0.2s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
 .logout-btn:hover {
-  background-color: #d9363e; /* More elegant red on hover */
-  transform: translateY(-1px);
+  background-color: #d9363e;
+  transform: translateY(-2px);
 }
 
-.notification-container {
-  position: relative;
-  margin: 1rem;
+.logout-btn:active {
+  transform: translateY(1px);
 }
 
-.notification-button {
-  position: relative;
-  background: none;
-  border: none;
-  font-size: 24px;
-  cursor: pointer;
-  padding: 8px;
-  border-radius: 50%;
+/* === DASHBOARD LAYOUT === */
+.dashboard-container {
+  display: flex;
+  flex-direction: row;
+  gap: 30px;
+  padding: 32px;
+  max-width: 1200px;
+  margin: auto;
+}
+
+.sidebar {
+  width: 280px;
   background-color: #fff;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-  transition: background-color 0.2s ease;
+  padding: 24px;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  height: fit-content;
+  position: sticky;
+  top: 24px;
 }
 
-.notification-button:hover {
-  background-color: #f0f0f0;
+.sidebar-header {
+  font-size: 22px;
+  font-weight: 600;
+  margin-bottom: 20px;
 }
 
-.notification-count {
-  position: absolute;
-  top: -5px;
-  right: -5px;
-  background-color: red;
-  color: white;
-  font-size: 12px;
-  font-weight: bold;
-  padding: 2px 6px;
-  border-radius: 999px;
-  box-shadow: 0 0 0 2px white;
+.topic-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
 }
 
-.notification-wrapper {
-  position: relative;
-  display: inline-block; /* Wraps tightly around button + dropdown */
-}
-
-.notification-dropdown {
-  display: none;
-  position: absolute;
-  top: 110%; /* Adjusts distance from button */
-  left: 0; /* Align to left of button */
-  width: 320px;
-  max-height: 400px;
-  overflow-y: auto;
+.sidebar-topic-item {
   background-color: #fff;
-  border-radius: 12px;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
-  z-index: 1000;
-  padding: 1rem;
-}
-
-.notification-dropdown::before {
-  content: '';
-  position: absolute;
-  top: -8px;
-  left: 20px;
-  border-width: 8px;
-  border-style: solid;
-  border-color: transparent transparent #fff transparent;
-}
-
-.notification-list {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.notification-list li {
+  padding: 12px 18px;
+  border-radius: 50px;
   margin-bottom: 12px;
-  font-size: 14px;
-  line-height: 1.4;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
 }
 
-.notification-list small {
-  display: block;
-  font-size: 12px;
-  color: #888;
+.sidebar-topic-title {
+  font-weight: 500;
+  color: #1c1e21;
+  font-size: 18px;
 }
 
-.empty-message {
-  color: #555;
-  font-size: 14px;
-  text-align: center;
+.main-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
 }
+
+/* === LATEST MESSAGE CARD === */
+.latest-message-card {
+  background-color: #fff;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  padding: 32px;
+}
+
+.latest-message-title {
+  font-size: 24px;
+  font-weight: 600;
+  color: #1d2129;
+  margin-bottom: 16px;
+}
+
+.latest-message-content {
+  font-size: 16px;
+  line-height: 1.6;
+  color: #444;
+}
+
+.latest-message-meta {
+  margin-top: 16px;
+  font-size: 14px;
+  color: #65676b;
+}
+

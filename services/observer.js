@@ -42,28 +42,6 @@ class Observer {
     });
   }
 
-  async notifySubscribers(topicId, messageText) {
-    const topic = await Topic.findById(topicId).select('title subscribers');
-    if (!topic) return;
-
-    const userIds = topic.subscribers || [];
-
-    const notification = {
-      topic: topic.title,
-      message: messageText,
-      date: new Date()
-    };
-
-    await Promise.all(
-      userIds.map(async (userId) => {
-        const user = await User.findById(userId);
-        if (user) {
-          user.notifications.push(notification);
-          await user.save();
-        }
-      })
-    );
-  }
 }
 
 module.exports = new Observer();
